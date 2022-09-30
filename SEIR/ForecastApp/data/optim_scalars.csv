@@ -1,0 +1,13 @@
+policy,optim_res,Median,Lower_Bound,Upper_Bound
+No Intervention,1.02,1.059,0.748,1.471
+School Closure,2.115,2.07,1.681,2.424
+Intense Lockdown,0.155,0.156,0.131,0.179
+Relax Intervention 1,0.054,0.059,0.026,0.112
+Relax Intervention 2,0.156,0.164,0.098,0.259
+Relax Intervention 3,0.424,0.41,0.349,0.478
+Lockdown Level 2,0.459,0.467,0.396,0.556
+Lockdown Level 3,0.319,0.319,0.273,0.373
+Lockdown Level 5,0.152,0.15,0.105,0.192
+Pre-Christmas Level 3,0.832,0.846,0.586,1.135
+Holiday period,0.727,0.715,0.542,0.962
+After-Christmas Level 5,0.017,0.019,0.003,0.11
