@@ -10,6 +10,7 @@
   library('plotly')
   library('tidyverse')
   library('doParallel')
+  library('shinycssloaders')
 
 ####-- 2. Required Functions -----------------------------------------------####
   
