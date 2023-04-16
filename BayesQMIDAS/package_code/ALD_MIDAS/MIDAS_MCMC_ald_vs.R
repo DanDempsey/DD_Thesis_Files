@@ -28,7 +28,7 @@ make_design_mat <- function(regime_object, offset_only, vars_ind) {
 all_DLF_prior <- function(x, prior) {
   DLF_pars <- prior$DLF_pars
   sum( dnorm(x[1], mean = DLF_pars[[1]][1], sd = DLF_pars[[1]][2], log = TRUE), 
-       dgamma(-x[2], shape = DLF_pars[[2]][1], rate = DLF_pars[[2]][2], log = TRUE) )
+       dexp(-x[2], rate = DLF_pars[[2]][2], log = TRUE) )
 }
 
 ##### Function that computes covariance matrix for adaptive proposal
@@ -43,7 +43,7 @@ compute_covar <- function(new_DLF, len, last_mean, last_covar) {
 }
 
 ##### Main function that performs inference via MCMC
-MIDAS_MCMC_ald_vs <- function(formula, start, prior, quantile, MCMC_length) {
+MIDAS_MCMC_ald_vs <- function(formula, start, prior, quantile, MCMC_length, progress_report = 500) {
   
   ### Prepare data environment
   Zenv <- environment( formula )
@@ -97,7 +97,7 @@ MIDAS_MCMC_ald_vs <- function(formula, start, prior, quantile, MCMC_length) {
   jump_proposal_DLF_sigma <- diag( c(5, 2) )
   covar_sd <- ( 2.38^2 )/2
   small_pos <- diag(0.000001, 2)
-  DLF_last_covar <- replicate( nvar, matrix(c(6, 0.5, 0.5, 0.05), ncol = 2), simplify = FALSE )
+  DLF_last_covar <- replicate( nvar, matrix(c(3, 0.5, 0.5, 0.05), ncol = 2), simplify = FALSE )
   DLF_last_mean <- replicate( nvar, DLF_prior_mean, simplify = FALSE )
   names(accept) <- names(birth_oppurtunity) <- 
     names(birth) <- names(death_oppurtunity) <- 
@@ -180,6 +180,9 @@ MIDAS_MCMC_ald_vs <- function(formula, start, prior, quantile, MCMC_length) {
       
       varsel_lprior <- dbinom( varsel, 1, model_sel_prob[i-1], log = TRUE )
       varsel_lprior_star <- dbinom( varsel_star, 1, model_sel_prob[i-1], log = TRUE )
+      
+      #varsel_lprior <- dbinom( varsel, 1, 0.5, log = TRUE )
+      #varsel_lprior_star <- dbinom( varsel_star, 1, 0.5, log = TRUE )
       
       lkernel <- crossprod(B_post, V_posti)%*%B_post/2
       lkernel_star <- crossprod(B_post_star, V_posti_star)%*%B_post_star/2
@@ -272,7 +275,7 @@ MIDAS_MCMC_ald_vs <- function(formula, start, prior, quantile, MCMC_length) {
     }
     
     # Print progress
-    if ( !i%%500 )
+    if ( !i%%progress_report )
       cat( paste0("Current iteration: ", i, "\n") )
 
   }
@@ -294,3 +297,4 @@ MIDAS_MCMC_ald_vs <- function(formula, start, prior, quantile, MCMC_length) {
         regime_object = regime_object )
   
 }
+

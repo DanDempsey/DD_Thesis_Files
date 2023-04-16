@@ -37,4 +37,3 @@ midas_design_matrices <- function( regime_object, gr = FALSE, ... ) {
   
 }
 
-

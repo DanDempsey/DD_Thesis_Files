@@ -33,6 +33,10 @@ IRTS_MIDAS_AuxVar <- function(formula, data, response_dist = "ald", quantile = 0
   if ( missing(prior) ) {
     prior <- get(paste0("defaultPrior_", response_dist))(form, Zenv)
   }
+  
+  if( is.null(prior) ) {
+    prior <- get(paste0("defaultPrior_", response_dist))(form, Zenv)
+  }
     
   ### Check starting values
   # Beta values
@@ -48,13 +52,13 @@ IRTS_MIDAS_AuxVar <- function(formula, data, response_dist = "ald", quantile = 0
   }
   
   if ( missing(gamma_start) ) {
-    gamma_start <- rep( FALSE, n_var - 1 )
+    gamma_start <- sample( c(TRUE, FALSE), n_var - 1, replace = TRUE, prob = c(0.5, 0.5) )
   }
   
   ### Run the MCMC routine
   routine_fun <- get(paste0("MIDAS_MCMC_", response_dist))
   routine_fun( formula = form, start = list( beta = beta_start, gamma = gamma_start ), 
-               prior = prior, quantile = quantile, MCMC_length = MCMC_length )
+               prior = prior, quantile = quantile, MCMC_length = MCMC_length, ... )
   
 }
 

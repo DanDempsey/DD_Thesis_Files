@@ -38,12 +38,11 @@ irts_midas.fit <- function(x) {
   }
   
   ### Compute model diagnostics from the glm function
-  form <- x$formula
-  WX <- model.matrix( form, environment(form) )
-  colnames(WX) <- split(nms, x$pinds)[[1]]
-  x$glm_diagnostics <- dry_glm_fit(WX, environment(form)$response_vector, 
-                                   start = split(x$par, x$pinds)[[1]], family = x$family)
-  
+  #form <- x$formula
+  #WX <- model.matrix( form, environment(form) )
+  #colnames(WX) <- split(nms, x$pinds)[[1]]
+  #x$glm_diagnostics <- dry_glm_fit(WX, environment(form)$response_vector, 
+  #                                 start = split(x$par, x$pinds)[[1]], family = x$family)
   x
   
 }

@@ -62,11 +62,11 @@ nealmon_prior <- function(pars, pinds, beta_sd = 10, theta_sd = 10, theta_shape 
 }
 
 ### Beta
-irts_beta <- function(delta_t, theta, delta_t_max = max(delta_t)) {
+irts_beta <- function(delta_t, theta) {
   
   ### First apply safety
   eps <- .Machine$double.eps
-  x <- delta_t / delta_t_max
+  x <- delta_t / max(delta_t)
   x <- ifelse(x == 1, x - eps, x)
   x <- ifelse(x == 0, x + eps, x)
   
